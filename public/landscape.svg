@@ -1,0 +1,52 @@
+<svg width="1400" height="400" viewBox="0 0 1400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E0F2FE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BAE6FD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="fieldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FCD34D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="1400" height="200" fill="url(#skyGradient)" />
+  
+  <!-- Background hills -->
+  <path d="M0 180 Q350 120 700 150 T1400 140 L1400 400 L0 400 Z" fill="#84CC16" opacity="0.6"/>
+  <path d="M0 200 Q300 140 600 170 T1400 160 L1400 400 L0 400 Z" fill="#65A30D" opacity="0.7"/>
+  
+  <!-- Trees -->
+  <ellipse cx="100" cy="220" rx="25" ry="35" fill="#166534"/>
+  <ellipse cx="200" cy="210" rx="30" ry="40" fill="#15803D"/>
+  <ellipse cx="320" cy="225" rx="20" ry="30" fill="#166534"/>
+  <ellipse cx="450" cy="215" rx="35" ry="45" fill="#15803D"/>
+  <ellipse cx="600" cy="205" rx="28" ry="38" fill="#166534"/>
+  <ellipse cx="750" cy="220" rx="22" ry="32" fill="#15803D"/>
+  <ellipse cx="900" cy="210" rx="32" ry="42" fill="#166534"/>
+  <ellipse cx="1050" cy="225" rx="25" ry="35" fill="#15803D"/>
+  <ellipse cx="1200" cy="215" rx="30" ry="40" fill="#166534"/>
+  <ellipse cx="1300" cy="205" rx="20" ry="30" fill="#15803D"/>
+  
+  <!-- Country house -->
+  <rect x="650" y="180" width="100" height="60" fill="#D97706" rx="2"/>
+  <polygon points="640,180 700,140 760,180" fill="#7C2D12"/>
+  <rect x="665" y="200" width="15" height="25" fill="#92400E"/>
+  <rect x="690" y="190" width="12" height="12" fill="#3B82F6"/>
+  <rect x="720" y="190" width="12" height="12" fill="#3B82F6"/>
+  <rect x="690" y="210" width="12" height="12" fill="#3B82F6"/>
+  <rect x="720" y="210" width="12" height="12" fill="#3B82F6"/>
+  
+  <!-- Chimney -->
+  <rect x="720" y="155" width="8" height="25" fill="#7C2D12"/>
+  
+  <!-- Foreground field -->
+  <rect x="0" y="250" width="1400" height="150" fill="url(#fieldGradient)"/>
+  
+  <!-- Field texture lines -->
+  <line x1="0" y1="270" x2="1400" y2="280" stroke="#D97706" stroke-width="1" opacity="0.3"/>
+  <line x1="0" y1="290" x2="1400" y2="300" stroke="#D97706" stroke-width="1" opacity="0.3"/>
+  <line x1="0" y1="310" x2="1400" y2="320" stroke="#D97706" stroke-width="1" opacity="0.3"/>
+  <line x1="0" y1="330" x2="1400" y2="340" stroke="#D97706" stroke-width="1" opacity="0.3"/>
+</svg>
