@@ -8,7 +8,7 @@ interface ParallaxSectionProps {
   pixabayQuery?: string;
   speed?: number;
   className?: string;
-  overlay?: 'light' | 'dark' | 'none';
+  overlay?: 'light' | 'dark' | 'black' | 'none';
 }
 
 export function ParallaxSection({ 
@@ -38,6 +38,7 @@ export function ParallaxSection({
   const overlayClass = {
     light: 'bg-white/95',
     dark: 'bg-gradient-to-b from-black/15 via-black/10 to-black/15',
+    black: 'bg-gradient-to-b from-black/60 via-black/50 to-black/60',
     none: ''
   };
 

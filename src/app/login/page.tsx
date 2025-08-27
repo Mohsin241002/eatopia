@@ -8,6 +8,8 @@ import Image from 'next/image';
 import { ParallaxSection } from '@/components/ParallaxSection';
 import { ScrollAnimatedSection } from '@/components/ScrollAnimatedSection';
 import { SimpleMouseTracker } from '@/components/SimpleMouseTracker';
+import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -71,7 +73,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-x-hidden">
+    <div className="min-h-screen bg-white dark:bg-black/90 relative overflow-x-hidden">
       <SimpleMouseTracker />
       
       {/* Background */}
@@ -81,7 +83,7 @@ export default function LoginPage() {
         overlay="dark"
         className="min-h-screen"
       >
-        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-24">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             {/* Logo */}
             <ScrollAnimatedSection animation="zoomIn" delay={200}>
@@ -100,11 +102,11 @@ export default function LoginPage() {
             {/* Header */}
             <ScrollAnimatedSection animation="slideUp" delay={400}>
               <div className="text-center mb-8">
-                <h2 className="text-4xl font-cream-bold text-white mb-4">
+                <h2 className="text-4xl font-riveta-medium text-white mb-4">
                   {showForgotPassword ? 'Reset Password' : 'Welcome Back'}
                 </h2>
                 {!showForgotPassword && (
-                  <p className="text-lg font-cream text-gray-200">
+                  <p className="text-lg font-riveta text-gray-200">
                     Sign in to access your culinary journey
                   </p>
                 )}
@@ -118,7 +120,7 @@ export default function LoginPage() {
                 
                 {/* Error/Success Message */}
                 {error && (
-                  <div className={`mb-6 p-4 rounded-2xl text-sm font-cream ${
+                  <div className={`mb-6 p-4 rounded-2xl text-sm font-riveta ${
                     error.includes('sent') 
                       ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800' 
                       : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'
@@ -130,15 +132,14 @@ export default function LoginPage() {
                 <form onSubmit={showForgotPassword ? handleForgotPassword : handleSubmit} className="space-y-6">
                   {/* Email Field */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <Label htmlFor="email" className="mb-3 block">
                       Email Address
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="email"
                       id="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
                       placeholder="Enter your email"
                       required
                     />
@@ -147,15 +148,14 @@ export default function LoginPage() {
                   {/* Password Field */}
                   {!showForgotPassword && (
                     <div>
-                      <label htmlFor="password" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
+                      <Label htmlFor="password" className="mb-3 block">
                         Password
-                      </label>
-                      <input
+                      </Label>
+                      <Input
                         type="password"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
                         placeholder="Enter your password"
                         required
                       />
@@ -166,7 +166,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-2xl font-cream-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-2xl font-riveta-medium text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
                   >
                     {loading ? (
                       <div className="flex items-center justify-center">
@@ -187,7 +187,7 @@ export default function LoginPage() {
                   {showForgotPassword ? (
                     <button
                       onClick={() => setShowForgotPassword(false)}
-                      className="text-sm font-cream text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
+                      className="text-sm font-riveta text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
                     >
                       ← Back to Sign In
                     </button>
@@ -195,17 +195,17 @@ export default function LoginPage() {
                     <div className="space-y-3">
                       <button
                         onClick={() => setShowForgotPassword(true)}
-                        className="block w-full text-sm font-cream text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-200"
+                        className="block w-full text-sm font-riveta text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-200"
                       >
                         Forgot your password?
                       </button>
                       <div className="flex items-center justify-center space-x-2">
-                        <span className="text-sm font-cream text-gray-600 dark:text-gray-400">
+                        <span className="text-sm font-riveta text-gray-600 dark:text-gray-400">
                           Don't have an account?
                         </span>
                         <Link
                           href="/signup"
-                          className="text-sm font-cream-bold text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
+                          className="text-sm font-riveta text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
                         >
                           Sign up
                         </Link>

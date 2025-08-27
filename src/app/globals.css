@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer base {
+  :root {
+    --shadow-input: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02), 0px 0px 0px 1px rgba(25, 28, 33, 0.08);
+  }
+}
+
 /* Cream Font Family */
 @font-face {
   font-family: 'Cream';
@@ -97,6 +103,23 @@
   font-display: swap;
 }
 
+/* Riveta Font Family */
+@font-face {
+  font-family: 'Riveta';
+  src: url('/fonts/riveta.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Riveta';
+  src: url('/fonts/riveta medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -110,6 +133,9 @@
   
   /* Custom Font Family for Cream */
   --font-cream: 'Cream', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Custom Font Family for Riveta */
+  --font-riveta: 'Riveta', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   
   /* Custom Animations */
   --animate-float: float 6s ease-in-out infinite;

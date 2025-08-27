@@ -8,6 +8,8 @@ import Image from 'next/image';
 import { ParallaxSection } from '@/components/ParallaxSection';
 import { ScrollAnimatedSection } from '@/components/ScrollAnimatedSection';
 import { SimpleMouseTracker } from '@/components/SimpleMouseTracker';
+import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -81,7 +83,7 @@ export default function SignupPage() {
         overlay="dark"
         className="min-h-screen"
       >
-        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-24">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             {/* Logo */}
             <ScrollAnimatedSection animation="zoomIn" delay={200}>
@@ -100,10 +102,10 @@ export default function SignupPage() {
             {/* Header */}
             <ScrollAnimatedSection animation="slideUp" delay={400}>
               <div className="text-center mb-8">
-                <h2 className="text-4xl font-cream-bold text-white mb-4">
-                  Join Eatopia
+                <h2 className="text-4xl font-riveta-medium text-white mb-4">
+                  Join EATOPIA
                 </h2>
-                <p className="text-lg font-cream text-gray-200">
+                <p className="text-lg font-riveta text-gray-200">"
                   Create your account to discover extraordinary dining experiences
                 </p>
               </div>
@@ -116,24 +118,23 @@ export default function SignupPage() {
                 
                 {/* Error Message */}
                 {error && (
-                  <div className="mb-6 p-4 rounded-2xl text-sm font-cream bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800">
+                  <div className="mb-6 p-4 rounded-2xl text-sm font-riveta bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800">
                     {error}
                   </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Full Name Field */}
                   <div>
-                    <label htmlFor="name" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <Label htmlFor="name" className="mb-3 block">
                       Full Name
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="text"
                       id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
                       placeholder="Enter your full name"
                       required
                     />
@@ -141,16 +142,15 @@ export default function SignupPage() {
 
                   {/* Email Field */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <Label htmlFor="email" className="mb-3 block">
                       Email Address
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="email"
                       id="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
                       placeholder="Enter your email"
                       required
                     />
@@ -158,37 +158,36 @@ export default function SignupPage() {
 
                   {/* Password Field */}
                   <div>
-                    <label htmlFor="password" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <Label htmlFor="password" className="mb-3 block">
                       Password
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="password"
                       id="password"
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
                       placeholder="Create a password"
                       required
                       minLength={6}
                     />
-                    <p className="text-xs font-cream text-gray-500 dark:text-gray-400 mt-2 ml-1">
+                    <p className="text-xs font-riveta text-gray-500 dark:text-gray-400 mt-2 ml-1">
                       Must be at least 6 characters long
                     </p>
                   </div>
 
                   {/* Confirm Password Field */}
+                  {/* Confirm Password Field */}
                   <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <Label htmlFor="confirmPassword" className="mb-3 block">
                       Confirm Password
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="password"
                       id="confirmPassword"
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
                       placeholder="Confirm your password"
                       required
                     />
@@ -198,7 +197,7 @@ export default function SignupPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-2xl font-cream-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-2xl font-riveta-medium text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
                   >
                     {loading ? (
                       <div className="flex items-center justify-center">
@@ -217,12 +216,12 @@ export default function SignupPage() {
                 {/* Footer */}
                 <div className="mt-8 text-center">
                   <div className="flex items-center justify-center space-x-2">
-                    <span className="text-sm font-cream text-gray-600 dark:text-gray-400">
+                    <span className="text-sm font-riveta text-gray-600 dark:text-gray-400">
                       Already have an account?
                     </span>
                     <Link
                       href="/login"
-                      className="text-sm font-cream-bold text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
+                      className="text-sm font-riveta-medium text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
                     >
                       Sign in
                     </Link>

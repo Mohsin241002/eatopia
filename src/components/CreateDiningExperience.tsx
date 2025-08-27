@@ -464,7 +464,7 @@ export default function CreateDiningExperience() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black/5">
       {currentStep === 1 && <Step1LocationSelection onNext={handleStep1} />}
       {currentStep === 2 && experienceData.location && (
         <Step2DateTimeSelection 

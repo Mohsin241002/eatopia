@@ -34,7 +34,7 @@ export default function SearchForm() {
             
             <button 
               onClick={handleCreateExperience}
-              className="group relative bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white px-12 md:px-20 py-4 md:py-6 rounded-full font-black text-lg md:text-xl transition-all duration-500 shadow-2xl hover:shadow-orange-500/50 transform hover:scale-105 font-cream animate-gradient"
+              className="group relative bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white px-12 md:px-20 py-4 md:py-6 rounded-full font-black text-lg md:text-xl transition-all duration-500 shadow-2xl hover:shadow-orange-500/50 transform hover:scale-105 font-rivetaanimate-gradient"
             >
               <span className="relative z-10 flex items-center justify-center space-x-3">
                 <span>✨</span>
