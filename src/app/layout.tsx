@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Dine Discover - Find Amazing Restaurants",
-  description: "Your insider guide to discovering the finest dining experiences. Find and book reservations at the best restaurants for dining and events.",
+  title: "EATOPIA - Vibe-Match Your Perfect Dining Experience",
+  description: "EATOPIA curates restaurant recommendations based on your group type, vibe, and mood. It's not just food discovery—it's your digital friend with taste.",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

@@ -74,15 +74,16 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {showForgotPassword ? 'Reset Password' : 'Log In'}
+    <div className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-cream-bold text-black dark:text-white">
+            {showForgotPassword ? 'Reset Password' : 'Welcome Back'}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-200"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -90,34 +91,45 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
           </button>
         </div>
 
+        {/* Subtitle */}
+        {!showForgotPassword && (
+          <p className="text-gray-600 dark:text-gray-300 font-cream mb-6 text-center">
+            Sign in to access your culinary journey
+          </p>
+        )}
+
+        {/* Error/Success Message */}
         {error && (
-          <div className={`mb-4 p-3 rounded-md text-sm ${
+          <div className={`mb-6 p-4 rounded-2xl text-sm font-cream ${
             error.includes('sent') 
-              ? 'bg-green-50 text-green-700 border border-green-200' 
-              : 'bg-red-50 text-red-700 border border-red-200'
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800' 
+              : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'
           }`}>
             {error}
           </div>
         )}
 
-        <form onSubmit={showForgotPassword ? handleForgotPassword : handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-              Email
+        <form onSubmit={showForgotPassword ? handleForgotPassword : handleSubmit} className="space-y-6">
+          {/* Email Field */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
+              Email Address
             </label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
+              placeholder="Enter your email"
               required
             />
           </div>
 
+          {/* Password Field */}
           {!showForgotPassword && (
-            <div className="mb-6">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <div>
+              <label htmlFor="password" className="block text-sm font-cream-medium text-gray-700 dark:text-gray-300 mb-3">
                 Password
               </label>
               <input
@@ -125,44 +137,62 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-cream text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
+                placeholder="Enter your password"
                 required
               />
             </div>
           )}
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-2xl font-cream-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
           >
-            {loading ? 'Please wait...' : (showForgotPassword ? 'Send Reset Email' : 'Log In')}
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Please wait...
+              </div>
+            ) : (
+              showForgotPassword ? 'Send Reset Email' : 'Sign In'
+            )}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        {/* Footer Links */}
+        <div className="mt-8 text-center space-y-4">
           {showForgotPassword ? (
             <button
               onClick={() => setShowForgotPassword(false)}
-              className="text-sm text-orange-600 hover:text-orange-500"
+              className="text-sm font-cream text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
             >
-              Back to Login
+              ← Back to Sign In
             </button>
           ) : (
-            <>
+            <div className="space-y-3">
               <button
                 onClick={() => setShowForgotPassword(true)}
-                className="text-sm text-orange-600 hover:text-orange-500 mr-4"
+                className="block w-full text-sm font-cream text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-200"
               >
-                Forgot Password?
+                Forgot your password?
               </button>
-              <button
-                onClick={onSwitchToSignup}
-                className="text-sm text-orange-600 hover:text-orange-500"
-              >
-                Don't have an account? Sign up
-              </button>
-            </>
+              <div className="flex items-center justify-center space-x-2">
+                <span className="text-sm font-cream text-gray-600 dark:text-gray-400">
+                  Don't have an account?
+                </span>
+                <button
+                  onClick={onSwitchToSignup}
+                  className="text-sm font-cream-bold text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
+                >
+                  Sign up
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </div>

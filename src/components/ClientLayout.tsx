@@ -1,6 +1,7 @@
 'use client';
 
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -8,8 +9,10 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   return (
-    <AuthProvider>
-      {children}
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

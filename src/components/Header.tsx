@@ -1,112 +1,83 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import LoginModal from './LoginModal';
-import SignupModal from './SignupModal';
+import { DarkModeToggle } from './DarkModeToggle';
 
 export default function Header() {
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showSignupModal, setShowSignupModal] = useState(false);
   const { user, logout } = useAuth();
   return (
-    <header className="bg-white border-b border-gray-200">
+    <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Left side - Menu and Search */}
-          <div className="flex items-center space-x-4">
-            <button className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            <span className="text-gray-700 font-medium">Search restaurants</span>
-          </div>
-
-          {/* Center - Logo */}
+          {/* Left side - Logo */}
           <div className="flex-shrink-0">
-            <div className="flex items-center">
-              <div className="flex items-center space-x-1">
-                <Image
-                  src="/logo.svg"
-                  alt="Landed Houses"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 text-orange-500"
-                  priority
-                />
-                <span className="text-xl font-normal text-gray-900">dine discover</span>
-              </div>
-            </div>
+            <Link href="/" className="flex items-center group">
+              <Image
+                src="/logo.svg"
+                alt="Eatopia"
+                width={120}
+                height={40}
+                className="text-black dark:text-white dark:filter dark:brightness-0 dark:invert"
+                priority
+              />
+            </Link>
           </div>
 
-          {/* Right side - Auth buttons */}
+          {/* Right side - Auth and Actions */}
           <div className="flex items-center space-x-4">
+            <DarkModeToggle />
             {user ? (
               // Authenticated user menu
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">
-                      {user.displayName?.charAt(0) || user.email?.charAt(0) || 'U'}
+              <div className="flex items-center space-x-6">
+                {/* Navigation Links */}
+                <nav className="hidden md:flex items-center space-x-6">
+                  <Link 
+                    href="/dashboard" 
+                    className="text-black/70 dark:text-white/70 hover:text-orange-500 dark:hover:text-orange-400 font-cream-medium transition-colors"
+                  >
+                    My Experiences
+                  </Link>
+                  <Link 
+                    href="/create-experience" 
+                    className="text-black/70 dark:text-white/70 hover:text-orange-500 dark:hover:text-orange-400 font-cream-medium transition-colors"
+                  >
+                    Create
+                  </Link>
+                  <Link 
+                    href="/" 
+                    className="text-black/70 dark:text-white/70 hover:text-orange-500 dark:hover:text-orange-400 font-cream-medium transition-colors"
+                  >
+                    Discover
+                  </Link>
+                </nav>
+                
+                {/* User Menu */}
+                <div className="flex items-center space-x-3">
+                  <div className="hidden sm:block">
+                    <span className="text-black/80 dark:text-white/80 font-cream text-sm">
+                      {user.displayName || user.email}
                     </span>
                   </div>
-                  <span className="text-gray-700 text-sm">
-                    {user.displayName || user.email}
-                  </span>
+                  <button
+                    onClick={logout}
+                    className="text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white font-cream transition-colors"
+                  >
+                    Logout
+                  </button>
                 </div>
-                <button
-                  onClick={logout}
-                  className="text-gray-700 hover:text-gray-900 text-sm"
-                >
-                  Logout
-                </button>
-                <button className="bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors">
-                  Add your restaurant
-                </button>
               </div>
             ) : (
               // Guest user buttons
-              <>
-                <button 
-                  onClick={() => setShowLoginModal(true)}
-                  className="flex items-center space-x-1 text-gray-700 hover:text-gray-900"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  <span>Log in</span>
-                </button>
-                <button 
-                  onClick={() => setShowSignupModal(true)}
-                  className="bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors"
-                >
-                  Sign up
-                </button>
-              </>
+              <Link 
+                href="/login"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-cream-medium transition-colors"
+              >
+                Login
+              </Link>
             )}
           </div>
-
-          {/* Login Modal */}
-          <LoginModal
-            isOpen={showLoginModal}
-            onClose={() => setShowLoginModal(false)}
-            onSwitchToSignup={() => {
-              setShowLoginModal(false);
-              setShowSignupModal(true);
-            }}
-          />
-
-          {/* Signup Modal */}
-          <SignupModal
-            isOpen={showSignupModal}
-            onClose={() => setShowSignupModal(false)}
-            onSwitchToLogin={() => {
-              setShowSignupModal(false);
-              setShowLoginModal(true);
-            }}
-          />
         </div>
       </div>
     </header>
