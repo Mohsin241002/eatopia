@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ParallaxSection } from '@/components/background/ParallaxSection';
+import { GridBackgroundDemo } from '@/components/background/GridBackground';
 import { ScrollAnimatedSection } from '@/components/animation/AnimatedSection';
 import { SimpleMouseTracker } from '@/components/animation/SimpleMouseTracker';
 import { Input } from '@/components/ui/Input';
@@ -50,7 +50,7 @@ export default function SignupPage() {
       setError('');
       setLoading(true);
       await signup(formData.email, formData.password, formData.name);
-      router.push('/dashboard');
+      router.push('/main');
     } catch (error: any) {
       setError(getErrorMessage(error.code));
     } finally {
@@ -74,19 +74,16 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-x-hidden">
+    <div className="min-h-screen bg-white dark:bg-black relative overflow-x-hidden">
       <BackButton />
       <SimpleMouseTracker />
       
-      {/* Background */}
-      <ParallaxSection 
-        pixabayQuery="modern restaurant interior design"
-        speed={0.2}
-        overlay="dark"
-        className="min-h-screen"
-      >
-        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-24">
-          <div className="sm:mx-auto sm:w-full sm:max-w-md">
+      {/* Grid Background */}
+      <div className="relative min-h-screen">
+        <GridBackgroundDemo className="min-h-screen" />
+        {/* Content overlay */}
+        <div className="absolute inset-0 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md">
             {/* Logo */}
             <ScrollAnimatedSection animation="zoomIn" delay={200}>
               <Link href="/" className="flex justify-center mb-8">
@@ -95,7 +92,7 @@ export default function SignupPage() {
                   alt="Eatopia Logo"
                   width={150}
                   height={90}
-                  className="text-white filter brightness-0 invert"
+                  className="text-black dark:text-white filter dark:brightness-0 dark:invert"
                   priority
                 />
               </Link>
@@ -107,20 +104,19 @@ export default function SignupPage() {
                 <h2 className="text-4xl font-roboto text-white mb-4">
                   Join EATOPIA
                 </h2>
-                <p className="text-lg font-roboto text-gray-200">"
+                <p className="text-lg font-roboto text-gray-300">
                   Create your account to discover extraordinary dining experiences
                 </p>
               </div>
             </ScrollAnimatedSection>
-          </div>
 
-          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            {/* Form Container */}
             <ScrollAnimatedSection animation="slideUp" delay={600}>
-              <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700 rounded-3xl py-12 px-8 shadow-2xl">
+              <div className="bg-black/90 backdrop-blur-xl border border-gray-800 rounded-3xl py-12 px-8 shadow-2xl">
                 
                 {/* Error Message */}
                 {error && (
-                  <div className="mb-6 p-4 rounded-2xl text-sm font-roboto bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800">
+                  <div className="mb-6 p-4 rounded-2xl text-sm font-roboto bg-red-900/20 text-red-400 border border-red-800">
                     {error}
                   </div>
                 )}
@@ -218,12 +214,12 @@ export default function SignupPage() {
                 {/* Footer */}
                 <div className="mt-8 text-center">
                   <div className="flex items-center justify-center space-x-2">
-                    <span className="text-sm font-roboto text-gray-600 dark:text-gray-400">
+                    <span className="text-sm font-roboto text-gray-300">
                       Already have an account?
                     </span>
                     <Link
                       href="/login"
-                      className="text-sm font-roboto text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
+                      className="text-sm font-roboto text-orange-400 hover:text-orange-300 transition-colors duration-200"
                     >
                       Sign in
                     </Link>
@@ -233,7 +229,7 @@ export default function SignupPage() {
             </ScrollAnimatedSection>
           </div>
         </div>
-      </ParallaxSection>
+      </div>
     </div>
   );
 }

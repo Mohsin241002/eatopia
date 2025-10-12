@@ -100,7 +100,7 @@ export default function MyDiningExperiences() {
               <p className="text-gray-600 mt-1">Manage your vibe-matched dining adventures</p>
             </div>
             <Link
-              href="/create-experience"
+              href="/main"
               className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors font-medium"
             >
               + Create New Experience
@@ -151,7 +151,7 @@ export default function MyDiningExperiences() {
             <h3 className="text-xl font-medium text-gray-900 mb-2">No dining experiences yet</h3>
             <p className="text-gray-600 mb-6">Create your first vibe-matched dining experience!</p>
             <Link
-              href="/create-experience"
+              href="/main"
               className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors font-medium"
             >
               Get Started

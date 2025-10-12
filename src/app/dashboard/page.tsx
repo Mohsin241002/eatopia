@@ -46,7 +46,7 @@ export default function DashboardPage() {
             </div>
             <div className="mt-4 sm:mt-0">
               <Link
-                href="/create-experience"
+                href="/main"
                 className="inline-flex items-center px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-roboto rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +163,7 @@ export default function DashboardPage() {
                 Transform ordinary meals into extraordinary memories. Start your culinary journey today!
               </p>
               <Link 
-                href="/create-experience"
+                href="/main"
                 className="inline-flex items-center bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-2xl font-roboto text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl shadow-lg"
               >
                 <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

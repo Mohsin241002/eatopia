@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import emailjs from "@emailjs/browser";
-import Header from "@/components/Header";
-import BackButton from "@/components/BackButton";
+import Navbar from "@/components/layout/Navbar";
+import BackButton from "@/components/layout/BackButton";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -81,7 +81,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-800">
       <BackButton />
-      <Header />
+      <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <section className="text-center mb-16 pt-16">

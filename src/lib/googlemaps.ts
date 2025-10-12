@@ -47,6 +47,22 @@ export async function loadGoogleMaps(): Promise<typeof google> {
     return google;
   } catch (error) {
     console.error('Error loading Google Maps:', error);
+    
+    // Provide specific guidance for common errors
+    if (error instanceof Error) {
+      if (error.message.includes('ApiNotActivatedMapError')) {
+        console.error('🚨 SOLUTION: Enable the following APIs in Google Cloud Console:');
+        console.error('1. Maps JavaScript API');
+        console.error('2. Places API');
+        console.error('3. Geocoding API');
+        console.error('Visit: https://console.cloud.google.com/apis/library');
+      } else if (error.message.includes('RefererNotAllowedMapError')) {
+        console.error('🚨 SOLUTION: Add your domain to API key restrictions in Google Cloud Console');
+      } else if (error.message.includes('InvalidKeyMapError')) {
+        console.error('🚨 SOLUTION: Check your API key in .env.local file');
+      }
+    }
+    
     throw error;
   }
 }
@@ -343,6 +359,100 @@ export async function calculateDistance(
   }
 }
 
+// Place prediction interface
+export interface PlacePrediction {
+  place_id: string;
+  description: string;
+  main_text: string;
+  secondary_text: string;
+  types: string[];
+}
+
+// Get place predictions for autocomplete
+export async function getPlacePredictions(
+  input: string,
+  options?: {
+    types?: string[];
+    location?: { lat: number; lng: number };
+    radius?: number;
+  }
+): Promise<PlacePrediction[]> {
+  if (!input || input.length < 2) return [];
+  
+  try {
+    const google = await loadGoogleMaps();
+    
+    if (!google.maps.places?.AutocompleteService) {
+      console.error('AutocompleteService not available. Make sure Places library is loaded.');
+      return [];
+    }
+    
+    const service = new google.maps.places.AutocompleteService();
+    
+    const request: google.maps.places.AutocompletionRequest = {
+      input: input,
+      types: options?.types || ['(cities)'],
+      ...(options?.location && {
+        location: new google.maps.LatLng(options.location.lat, options.location.lng),
+        radius: options.radius || 50000
+      })
+    };
+
+    return new Promise((resolve, reject) => {
+      service.getPlacePredictions(request, (predictions, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+          const results: PlacePrediction[] = predictions.map(prediction => ({
+            place_id: prediction.place_id,
+            description: prediction.description,
+            main_text: prediction.structured_formatting.main_text,
+            secondary_text: prediction.structured_formatting.secondary_text || '',
+            types: prediction.types
+          }));
+          resolve(results);
+        } else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+          resolve([]);
+        } else {
+          console.error('Place predictions failed with status:', status);
+          resolve([]);
+        }
+      });
+    });
+  } catch (error) {
+    console.error('Error getting place predictions:', error);
+    return [];
+  }
+}
+
+// Get place details from place_id
+export async function getPlaceDetails(placeId: string): Promise<{ address: string; lat: number; lng: number } | null> {
+  try {
+    const google = await loadGoogleMaps();
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+    
+    return new Promise((resolve, reject) => {
+      service.getDetails({
+        placeId: placeId,
+        fields: ['formatted_address', 'geometry']
+      }, (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+          const result = {
+            address: place.formatted_address || '',
+            lat: place.geometry?.location?.lat() || 0,
+            lng: place.geometry?.location?.lng() || 0
+          };
+          resolve(result);
+        } else {
+          console.error('Place details failed:', status);
+          resolve(null);
+        }
+      });
+    });
+  } catch (error) {
+    console.error('Error getting place details:', error);
+    return null;
+  }
+}
+
 // Autocomplete for restaurant/address search
 export async function initializeAutocomplete(
   inputElement: HTMLInputElement,
@@ -449,6 +559,8 @@ export default {
   addRestaurantMarkers,
   getCurrentLocation,
   calculateDistance,
+  getPlacePredictions,
+  getPlaceDetails,
   initializeAutocomplete,
   RestaurantMapUtils,
 };

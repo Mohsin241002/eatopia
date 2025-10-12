@@ -128,7 +128,7 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=AIzaSyCh5ZZkKXaxSlSobJhVkg0LtBwD8pI2zU8
 #### 🤖 **Google Gemini AI**
 ```env
 # Gemini AI (Configured)
-NEXT_PUBLIC_GEMINI_API_KEY=AIzaSyAMTQf1OSy_e2yht9nrC5Gx2EAiTK-Iph8
+NEXT_PUBLIC_GEMINI_API_KEY=AIzaSyB8EN6CO7-c-T9419YfvfAOxVJSWxmA7LE
 ```
 
 #### 📸 **Pixabay API**
