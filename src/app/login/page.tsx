@@ -5,11 +5,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ParallaxSection } from '@/components/ParallaxSection';
-import { ScrollAnimatedSection } from '@/components/ScrollAnimatedSection';
-import { SimpleMouseTracker } from '@/components/SimpleMouseTracker';
+import { GridBackgroundDemo } from '@/components/background/GridBackground';
+import { ScrollAnimatedSection } from '@/components/animation/AnimatedSection';
+import { SimpleMouseTracker } from '@/components/animation/SimpleMouseTracker';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
+import BackButton from '@/components/layout/BackButton';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ export default function LoginPage() {
       setError('');
       setLoading(true);
       await login(email, password);
-      router.push('/dashboard');
+      router.push('/main');
     } catch (error: any) {
       setError(getErrorMessage(error.code));
     } finally {
@@ -73,27 +74,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black/90 relative overflow-x-hidden">
+    <div className="min-h-screen bg-white dark:bg-black relative overflow-x-hidden">
+      <BackButton />
       <SimpleMouseTracker />
       
-      {/* Background */}
-      <ParallaxSection 
-        pixabayQuery="elegant restaurant fine dining minimalist"
-        speed={0.2}
-        overlay="dark"
-        className="min-h-screen"
-      >
-        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-24">
-          <div className="sm:mx-auto sm:w-full sm:max-w-md">
+      {/* Grid Background */}
+      <div className="relative min-h-screen">
+        <GridBackgroundDemo className="min-h-screen" />
+        {/* Content overlay */}
+        <div className="absolute inset-0 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md">
             {/* Logo */}
             <ScrollAnimatedSection animation="zoomIn" delay={200}>
               <Link href="/" className="flex justify-center mb-8">
                 <Image
-                  src="/logo.svg"
+                  src="/icons/logo.svg"
                   alt="Eatopia Logo"
                   width={150}
                   height={90}
-                  className="text-white filter brightness-0 invert"
+                  className="text-black dark:text-white filter dark:brightness-0 dark:invert"
                   priority
                 />
               </Link>
@@ -102,28 +101,27 @@ export default function LoginPage() {
             {/* Header */}
             <ScrollAnimatedSection animation="slideUp" delay={400}>
               <div className="text-center mb-8">
-                <h2 className="text-4xl font-riveta-medium text-white mb-4">
+                <h2 className="text-4xl font-roboto text-white mb-4">
                   {showForgotPassword ? 'Reset Password' : 'Welcome Back'}
                 </h2>
                 {!showForgotPassword && (
-                  <p className="text-lg font-riveta text-gray-200">
+                  <p className="text-lg font-roboto text-gray-300">
                     Sign in to access your culinary journey
                   </p>
                 )}
               </div>
             </ScrollAnimatedSection>
-          </div>
 
-          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            {/* Form Container */}
             <ScrollAnimatedSection animation="slideUp" delay={600}>
-              <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700 rounded-3xl py-12 px-8 shadow-2xl">
+              <div className="bg-black/90 backdrop-blur-xl border border-gray-800 rounded-3xl py-12 px-8 shadow-2xl">
                 
                 {/* Error/Success Message */}
                 {error && (
-                  <div className={`mb-6 p-4 rounded-2xl text-sm font-riveta ${
+                  <div className={`mb-6 p-4 rounded-2xl text-sm font-roboto ${
                     error.includes('sent') 
-                      ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800' 
-                      : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'
+                      ? 'bg-green-900/20 text-green-400 border border-green-800' 
+                      : 'bg-red-900/20 text-red-400 border border-red-800'
                   }`}>
                     {error}
                   </div>
@@ -166,7 +164,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-2xl font-riveta-medium text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-2xl font-roboto text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
                   >
                     {loading ? (
                       <div className="flex items-center justify-center">
@@ -187,7 +185,7 @@ export default function LoginPage() {
                   {showForgotPassword ? (
                     <button
                       onClick={() => setShowForgotPassword(false)}
-                      className="text-sm font-riveta text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
+                      className="text-sm font-roboto text-orange-400 hover:text-orange-300 transition-colors duration-200"
                     >
                       ← Back to Sign In
                     </button>
@@ -195,17 +193,17 @@ export default function LoginPage() {
                     <div className="space-y-3">
                       <button
                         onClick={() => setShowForgotPassword(true)}
-                        className="block w-full text-sm font-riveta text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-200"
+                        className="block w-full text-sm font-roboto text-gray-300 hover:text-orange-400 transition-colors duration-200"
                       >
                         Forgot your password?
                       </button>
                       <div className="flex items-center justify-center space-x-2">
-                        <span className="text-sm font-riveta text-gray-600 dark:text-gray-400">
+                        <span className="text-sm font-roboto text-gray-300">
                           Don't have an account?
                         </span>
                         <Link
                           href="/signup"
-                          className="text-sm font-riveta text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 transition-colors duration-200"
+                          className="text-sm font-roboto text-orange-400 hover:text-orange-300 transition-colors duration-200"
                         >
                           Sign up
                         </Link>
@@ -217,7 +215,7 @@ export default function LoginPage() {
             </ScrollAnimatedSection>
           </div>
         </div>
-      </ParallaxSection>
+      </div>
     </div>
   );
 }

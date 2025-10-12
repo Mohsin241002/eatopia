@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import Header from '@/components/Header';
+import Header from '@/components/layout/Navbar';
+import BackButton from '@/components/layout/BackButton';
 
 export default function About() {
   const teamMembers = [
@@ -35,15 +36,16 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-800">
+      <BackButton />
       <Header />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <section className="text-center mb-16 relative pt-16">
           <div className="absolute inset-0 bg-pattern opacity-5"></div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-riveta-black mb-4 text-gray-900 dark:text-white relative z-10">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-roboto mb-4 text-gray-900 dark:text-white relative z-10">
             About EATOPIA
           </h1>
-          <p className="text-lg md:text-xl font-riveta text-gray-700 dark:text-gray-200 max-w-3xl mx-auto relative z-10">
+          <p className="text-lg md:text-xl font-roboto text-gray-700 dark:text-gray-200 max-w-3xl mx-auto relative z-10">
             Revolutionizing the way people discover and experience dining
           </p>
         </section>
@@ -51,8 +53,8 @@ export default function About() {
         {/* Project Story */}
         <section className="mb-16 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl">
           <div className="prose dark:prose-invert max-w-none">
-            <h2 className="text-3xl md:text-5xl font-riveta-medium mb-6 text-gray-900 dark:text-white">Our Story</h2>
-            <p className="text-lg font-riveta text-gray-700 dark:text-gray-200">
+            <h2 className="text-3xl md:text-5xl font-roboto mb-6 text-gray-900 dark:text-white">Our Story</h2>
+            <p className="text-lg font-roboto text-gray-700 dark:text-gray-200">
               EATOPIA was born from a shared vision of transforming the restaurant discovery experience. 
               In today's fast-paced world, we recognized that dining isn't just about food—it's about 
               finding the perfect atmosphere that matches your mood and occasion. Our team came together 
@@ -64,7 +66,7 @@ export default function About() {
 
         {/* Team Section */}
         <section className="mb-16">
-          <h2 className="text-3xl md:text-5xl font-riveta-medium mb-8 text-center text-gray-900 dark:text-white">Meet Our Team</h2>
+          <h2 className="text-3xl md:text-5xl font-roboto mb-8 text-center text-gray-900 dark:text-white">Meet Our Team</h2>
           <div className="grid md:grid-cols-3 gap-12">
             {teamMembers.map((member) => (
               <div 
@@ -74,7 +76,7 @@ export default function About() {
                 <div className="h-80 relative bg-gradient-to-br from-orange-400 to-orange-600 overflow-hidden">
                   {/* Fallback gradient background with initials */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white text-6xl font-riveta-medium">
+                    <span className="text-white text-6xl font-roboto">
                       {member.name.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
@@ -99,11 +101,11 @@ export default function About() {
                   />
                 </div>
                 <div className="p-8 text-center">
-                  <h3 className="text-2xl font-riveta-medium mb-3 text-gray-900 dark:text-white">
+                  <h3 className="text-2xl font-roboto mb-3 text-gray-900 dark:text-white">
                     {member.name}
                   </h3>
-                  <p className="text-orange-500 dark:text-orange-400 mb-6 font-riveta text-lg">{member.role}</p>
-                  <p className="text-gray-700 dark:text-gray-300 mb-8 font-riveta text-base leading-relaxed">
+                  <p className="text-orange-500 dark:text-orange-400 mb-6 font-roboto text-lg">{member.role}</p>
+                  <p className="text-gray-700 dark:text-gray-300 mb-8 font-roboto text-base leading-relaxed">
                     {member.description}
                   </p>
                   <div className="flex justify-center space-x-6">
@@ -132,15 +134,15 @@ export default function About() {
 
         {/* CTA Section */}
         <section className="text-center p-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl shadow-xl">
-          <h2 className="text-3xl md:text-5xl font-riveta-medium mb-4 text-white">
+          <h2 className="text-3xl md:text-5xl font-roboto mb-4 text-white">
             Ready to Start Your Food Journey?
           </h2>
-          <p className="text-white/90 mb-8 text-lg font-riveta">
+          <p className="text-white/90 mb-8 text-lg font-roboto">
             Join EATOPIA today and discover your perfect dining experience.
           </p>
           <Link 
             href="/login"
-            className="inline-block bg-white text-orange-500 hover:bg-gray-100 px-8 py-3 rounded-full font-riveta-medium transition-colors shadow-md hover:shadow-lg"
+            className="inline-block bg-white text-orange-500 hover:bg-gray-100 px-8 py-3 rounded-full font-roboto transition-colors shadow-md hover:shadow-lg"
           >
             Get Started
           </Link>

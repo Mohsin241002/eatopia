@@ -6,115 +6,10 @@
   }
 }
 
-/* Cream Font Family */
+/* Roboto Medium Font Family */
 @font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Light Italic.ttf') format('truetype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Medium Italic.ttf') format('truetype');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Bold Italic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Heavy.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Heavy Italic.ttf') format('truetype');
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Black.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cream';
-  src: url('/fonts/Cream Black Italic.ttf') format('truetype');
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-/* Riveta Font Family */
-@font-face {
-  font-family: 'Riveta';
-  src: url('/fonts/riveta.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Riveta';
-  src: url('/fonts/riveta medium.otf') format('opentype');
+  font-family: 'Roboto';
+  src: url('/fonts/roboto-medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -131,11 +26,8 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   
-  /* Custom Font Family for Cream */
-  --font-cream: 'Cream', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  
-  /* Custom Font Family for Riveta */
-  --font-riveta: 'Riveta', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Custom Font Family for Roboto */
+  --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   
   /* Custom Animations */
   --animate-float: float 6s ease-in-out infinite;
@@ -173,7 +65,7 @@ body.light {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-cream);
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Custom Animations */
@@ -256,36 +148,7 @@ html {
 }
 
 /* Utility classes */
-.font-cream {
-  font-family: var(--font-cream);
-}
-
-.font-cream-light {
-  font-family: var(--font-cream);
-  font-weight: 300;
-}
-
-.font-cream-regular {
-  font-family: var(--font-cream);
-  font-weight: 400;
-}
-
-.font-cream-medium {
-  font-family: var(--font-cream);
+.font-roboto {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 500;
-}
-
-.font-cream-bold {
-  font-family: var(--font-cream);
-  font-weight: 700;
-}
-
-.font-cream-heavy {
-  font-family: var(--font-cream);
-  font-weight: 800;
-}
-
-.font-cream-black {
-  font-family: var(--font-cream);
-  font-weight: 900;
 }
