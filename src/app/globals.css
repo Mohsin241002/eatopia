@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
@@ -16,15 +18,10 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+  --background: #171717;
+  --foreground: #ededed;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   
   /* Custom Font Family for Roboto */
   --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -48,8 +45,8 @@ html.dark {
 }
 
 html.light {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #171717;
+  --foreground: #ededed;
 }
 
 body.dark {
@@ -58,8 +55,8 @@ body.dark {
 }
 
 body.light {
-  background: #ffffff;
-  color: #171717;
+  background: #171717;
+  color: #ededed;
 }
 
 body {

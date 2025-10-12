@@ -1,9 +1,7 @@
 'use client';
 
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-
-const theme = extendTheme({});
 
 interface ChakraUIProviderProps {
   children: ReactNode;
@@ -11,7 +9,7 @@ interface ChakraUIProviderProps {
 
 export function ChakraUIProvider({ children }: ChakraUIProviderProps) {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider value={defaultSystem}>
       {children}
     </ChakraProvider>
   );

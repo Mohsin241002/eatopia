@@ -425,9 +425,10 @@ const MainPage = () => {
       const recs = await generateRestaurantRecommendations(preferences);
       setRecommendations(recs);
       
-      // Store recommendations for the user
+      // Store recommendations for the user in Firebase
       if (user?.uid) {
-        storeRecommendations(user.uid, recs);
+        await storeRecommendations(user.uid, recs, preferences);
+        console.log('Recommendations stored in Firebase successfully');
       }
       
       // Navigate to recommendations view
@@ -489,9 +490,10 @@ const MainPage = () => {
       const recs = await generateRestaurantRecommendations(preferences);
       setRecommendations(recs);
       
-      // Store recommendations for the user
+      // Store recommendations for the user in Firebase
       if (user?.uid) {
-        storeRecommendations(user.uid, recs);
+        await storeRecommendations(user.uid, recs, preferences);
+        console.log('Recommendations stored in Firebase successfully');
       }
       
       // Navigate to recommendations view

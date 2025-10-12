@@ -17,10 +17,16 @@ export default function RecommendationsPage() {
     }
 
     const loadRecommendations = async () => {
-      const stored = await getStoredRecommendations(user.uid);
-      if (stored) {
-        setRecommendations(stored);
-      } else {
+      try {
+        const stored = await getStoredRecommendations(user.uid);
+        if (stored && stored.length > 0) {
+          setRecommendations(stored);
+        } else {
+          // No recommendations found, redirect to main page
+          router.push('/main');
+        }
+      } catch (error) {
+        console.error('Error loading recommendations:', error);
         router.push('/main');
       }
     };

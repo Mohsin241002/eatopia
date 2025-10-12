@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import BackButton from '@/components/layout/BackButton';
+import { useAuth } from '@/contexts/AuthContext';
+import { getUserReservations, DiningReservation } from '@/lib/firebase';
 
 interface DiningExperience {
   id: string;
@@ -16,54 +19,6 @@ interface DiningExperience {
   restaurantsFound: number;
   status: 'upcoming' | 'completed' | 'planning';
 }
-
-// Mock data for dining experiences
-const mockExperiences: DiningExperience[] = [
-  {
-    id: '1',
-    location: 'Manhattan, New York',
-    date: 'Dec 15 - Dec 15, 2024',
-    groupType: 'couple',
-    vibe: 'romantic',
-    budget: 'Upscale',
-    imageUrl: '/restaurant-background.svg',
-    restaurantsFound: 12,
-    status: 'upcoming'
-  },
-  {
-    id: '2',
-    location: 'Brooklyn, New York',
-    date: 'Dec 8 - Dec 8, 2024',
-    groupType: 'friends',
-    vibe: 'loud-af',
-    budget: 'Moderate',
-    imageUrl: '/restaurant-background.svg',
-    restaurantsFound: 8,
-    status: 'completed'
-  },
-  {
-    id: '3',
-    location: 'San Francisco, California',
-    date: 'Dec 22 - Dec 23, 2024',
-    groupType: 'family',
-    vibe: 'casual',
-    budget: 'Budget-friendly',
-    imageUrl: '/restaurant-background.svg',
-    restaurantsFound: 15,
-    status: 'planning'
-  },
-  {
-    id: '4',
-    location: 'Los Angeles, California',
-    date: 'Jan 5 - Jan 5, 2025',
-    groupType: 'solo',
-    vibe: 'chill',
-    budget: 'Moderate',
-    imageUrl: '/restaurant-background.svg',
-    restaurantsFound: 6,
-    status: 'upcoming'
-  }
-];
 
 const vibeEmojis = {
   'romantic': '💕',
@@ -82,11 +37,80 @@ const groupTypeEmojis = {
 };
 
 export default function MyDiningExperiences() {
+  const { user } = useAuth();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'all' | 'upcoming' | 'completed'>('all');
+  const [experiences, setExperiences] = useState<DiningExperience[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    const loadReservations = async () => {
+      try {
+        setLoading(true);
+        const reservations = await getUserReservations(user.uid);
+        
+        // Transform Firebase reservations to DiningExperience format
+        const transformedExperiences: DiningExperience[] = reservations.map((reservation) => ({
+          id: reservation.id || '',
+          location: reservation.location,
+          date: formatDate(reservation.date),
+          groupType: getGroupTypeFromGuests(reservation.guests),
+          vibe: reservation.vibe,
+          budget: getBudgetFromRestaurants(reservation.restaurants),
+          imageUrl: '/restaurant-background.svg',
+          restaurantsFound: reservation.restaurants.length,
+          status: reservation.status,
+        }));
+        
+        setExperiences(transformedExperiences);
+      } catch (error) {
+        console.error('Error loading reservations:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadReservations();
+  }, [user, router]);
 
   const filteredExperiences = activeTab === 'all' 
-    ? mockExperiences 
-    : mockExperiences.filter(exp => exp.status === activeTab);
+    ? experiences 
+    : experiences.filter(exp => exp.status === activeTab);
+
+  // Helper functions
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    });
+  }
+
+  function getGroupTypeFromGuests(guests: number): string {
+    if (guests === 1) return 'solo';
+    if (guests === 2) return 'couple';
+    if (guests <= 4) return 'friends';
+    return 'family';
+  }
+
+  function getBudgetFromRestaurants(restaurants: any[]): string {
+    if (restaurants.length === 0) return 'Moderate';
+    
+    const avgPriceLevel = restaurants.reduce((acc, r) => {
+      const priceCount = (r.priceRange || '$$').length;
+      return acc + priceCount;
+    }, 0) / restaurants.length;
+
+    if (avgPriceLevel <= 1.5) return 'Budget-friendly';
+    if (avgPriceLevel <= 2.5) return 'Moderate';
+    return 'Upscale';
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16 relative">
@@ -145,7 +169,12 @@ export default function MyDiningExperiences() {
         </div>
 
         {/* Experiences Grid */}
-        {filteredExperiences.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">⏳</div>
+            <h3 className="text-xl font-medium text-gray-900 mb-2">Loading your dining experiences...</h3>
+          </div>
+        ) : filteredExperiences.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🍽️</div>
             <h3 className="text-xl font-medium text-gray-900 mb-2">No dining experiences yet</h3>

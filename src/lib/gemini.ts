@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { searchRestaurants, geocodeAddress } from './googlemaps';
+import { saveReservationToFirebase, getUserReservations } from './firebase';
 
 // Types for dining preferences
 export interface DiningPreferences {
@@ -33,7 +34,7 @@ if (!apiKey) {
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 // Get the Gemini Pro model
-export const getGeminiModel = (modelName: string = 'gemini-1.5-flash') => {
+export const getGeminiModel = (modelName: string = 'gemini-2.0-flash') => {
   if (!genAI) {
     throw new Error('Gemini AI not initialized. Please check your API key.');
   }
@@ -41,7 +42,7 @@ export const getGeminiModel = (modelName: string = 'gemini-1.5-flash') => {
 };
 
 // Generate text using Gemini
-export async function generateText(prompt: string, modelName: string = 'gemini-1.5-flash'): Promise<string> {
+export async function generateText(prompt: string, modelName: string = 'gemini-2.0-flash'): Promise<string> {
   try {
     if (!genAI) {
       throw new Error('Gemini AI not initialized. Please check your API key.');
@@ -58,7 +59,7 @@ export async function generateText(prompt: string, modelName: string = 'gemini-1
 }
 
 // Generate text stream using Gemini (for real-time responses)
-export async function* generateTextStream(prompt: string, modelName: string = 'gemini-1.5-flash') {
+export async function* generateTextStream(prompt: string, modelName: string = 'gemini-2.0-flash') {
   try {
     if (!genAI) {
       throw new Error('Gemini AI not initialized. Please check your API key.');
@@ -77,73 +78,7 @@ export async function* generateTextStream(prompt: string, modelName: string = 'g
   }
 }
 
-// Generate content with image input (Gemini Pro Vision)
-export async function generateContentWithImage(
-  prompt: string, 
-  imageData: string, 
-  mimeType: string = 'image/jpeg'
-): Promise<string> {
-  try {
-    if (!genAI) {
-      throw new Error('Gemini AI not initialized. Please check your API key.');
-    }
 
-    const model = getGeminiModel('gemini-pro-vision');
-    const imagePart = {
-      inlineData: {
-        data: imageData.split(',')[1], // Remove data:image/jpeg;base64, prefix
-        mimeType: mimeType,
-      },
-    };
-
-    const result = await model.generateContent([prompt, imagePart]);
-    const response = await result.response;
-    return response.text();
-  } catch (error) {
-    console.error('Error generating content with image:', error);
-    throw error;
-  }
-}
-
-// Chat functionality
-export class GeminiChat {
-  private chat: any;
-  private model: any;
-
-  constructor(modelName: string = 'gemini-1.5-flash') {
-    if (!genAI) {
-      throw new Error('Gemini AI not initialized. Please check your API key.');
-    }
-    this.model = getGeminiModel(modelName);
-    this.chat = this.model.startChat({
-      history: [],
-      generationConfig: {
-        maxOutputTokens: 1000,
-      },
-    });
-  }
-
-  async sendMessage(message: string): Promise<string> {
-    try {
-      const result = await this.chat.sendMessage(message);
-      const response = await result.response;
-      return response.text();
-    } catch (error) {
-      console.error('Error sending chat message:', error);
-      throw error;
-    }
-  }
-
-  async sendMessageStream(message: string) {
-    try {
-      const result = await this.chat.sendMessageStream(message);
-      return result.stream;
-    } catch (error) {
-      console.error('Error sending chat message stream:', error);
-      throw error;
-    }
-  }
-}
 
 // Utility functions for common use cases
 
@@ -184,7 +119,7 @@ export async function generateRestaurantRecommendations(preferences: DiningPrefe
     
   } catch (error) {
     console.error('Error in enhanced restaurant recommendations:', error);
-    return getFallbackRecommendations(preferences);
+    return [];
   }
 }
 
@@ -283,8 +218,7 @@ Make recommendations diverse while matching the ${vibe} vibe for ${occasion} wit
   } catch (error) {
     console.error('Error generating AI restaurants:', error);
   }
-  
-  return getFallbackRecommendations(preferences);
+  return [];
 }
 
 // Helper functions
@@ -347,54 +281,47 @@ export function getDiningPreferences(preferenceId: string): DiningPreferences | 
   return userPreferences.get(preferenceId) || null;
 }
 
-// Store recommendations in memory (could be extended to use database in future)
-const userRecommendations = new Map<string, RestaurantRecommendation[]>();
-
-export function storeRecommendations(userId: string, recommendations: RestaurantRecommendation[]): void {
-  userRecommendations.set(userId, recommendations);
-  console.log('Stored recommendations for user:', userId);
+// Store recommendations in Firebase
+export async function storeRecommendations(
+  userId: string, 
+  recommendations: RestaurantRecommendation[], 
+  preferences: DiningPreferences
+): Promise<string> {
+  try {
+    const reservationId = await saveReservationToFirebase(
+      userId,
+      {
+        location: preferences.location || 'Not specified',
+        guests: preferences.guests,
+        vibe: preferences.vibe,
+        occasion: preferences.occasion,
+        date: preferences.timestamp || new Date().toISOString().split('T')[0],
+      },
+      recommendations
+    );
+    console.log('Stored recommendations for user in Firebase:', userId, reservationId);
+    return reservationId;
+  } catch (error) {
+    console.error('Error storing recommendations:', error);
+    throw error;
+  }
 }
 
-export function getStoredRecommendations(userId: string): RestaurantRecommendation[] | null {
-  return userRecommendations.get(userId) || null;
-}
-
-function getFallbackRecommendations(preferences: DiningPreferences): RestaurantRecommendation[] {
-  return [
-    {
-      name: "The Garden Bistro",
-      cuisine: "Modern American",
-      priceRange: "$$",
-      atmosphere: "Cozy and welcoming with garden views",
-      location: "Downtown District",
-      specialties: "Farm-to-table cuisine, craft cocktails",
-      specialFeatures: ["Farm-to-table ingredients", "Outdoor seating", "Craft cocktails"],
-      rating: 4.3,
-      description: "A charming bistro offering fresh, locally-sourced dishes in a relaxed garden setting perfect for any occasion."
-    },
-    {
-      name: "Spice Route",
-      cuisine: "Indian",
-      priceRange: "$",
-      atmosphere: "Vibrant and colorful with traditional decor",
-      location: "Cultural Quarter",
-      specialties: "Authentic curries, tandoor specialties",
-      specialFeatures: ["Authentic spices", "Vegetarian options", "Family-friendly"],
-      rating: 4.5,
-      description: "Authentic Indian cuisine with bold flavors and generous portions in a warm, family-friendly environment."
-    },
-    {
-      name: "Bella Vista",
-      cuisine: "Italian",
-      priceRange: "$$$",
-      atmosphere: "Elegant and romantic with city views",
-      location: "Hillside Heights",
-      specialties: "Handmade pasta, wood-fired pizza",
-      rating: 4.7,
-      description: "Upscale Italian dining with stunning city views and authentic recipes passed down through generations."
+export async function getStoredRecommendations(userId: string): Promise<RestaurantRecommendation[] | null> {
+  try {
+    const reservations = await getUserReservations(userId);
+    if (reservations.length > 0) {
+      // Return the most recent reservation's restaurants
+      return reservations[0].restaurants;
     }
-  ];
+    return null;
+  } catch (error) {
+    console.error('Error getting stored recommendations:', error);
+    return null;
+  }
 }
+
+
 
 // Restaurant review summary generator
 export async function generateReviewSummary(reviews: string[]): Promise<string> {
@@ -416,8 +343,6 @@ Provide a balanced, objective summary that would help potential customers make a
 export default {
   generateText,
   generateTextStream,
-  generateContentWithImage,
-  GeminiChat,
   generateRestaurantRecommendations,
   generateMenuDescription,
   generateReviewSummary,
